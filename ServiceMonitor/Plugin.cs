@@ -26,7 +26,17 @@ namespace ServiceMonitor
         //private readonly EventInfo TestingEvent;
         //private readonly EventInfo TestCompleteEvent;
 
-        public string Name { get => (string)NameProp.GetValue(BasePlugin); }
+        public string Name
+        {
+            get
+            {
+                if (Disposed)
+                {
+                    throw new ObjectDisposedException(nameof(Plugin));
+                }
+                return (string)NameProp.GetValue(BasePlugin);
+            }
+        }
 
         public Plugin(Type PluginType)
         {
