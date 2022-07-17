@@ -1,22 +1,98 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ServiceMonitor.Properties;
+using System;
+using System.IO;
 using System.Windows.Forms;
 
 namespace ServiceMonitor
 {
     static class Program
     {
+        private static readonly string PluginDir = Path.Combine(Application.StartupPath, "Plugins");
+        private static FrmMain MainForm = null;
+        private static NotifyIcon NFI;
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main()
         {
+            //Manual idle event handler so we can start the application with the form in hidden mode
+            //We only use this once to set up all other events
+            Application.Idle += ApplicationReady;
+            //Hide the notify icon before exiting to make sure it won't linger arond
+            Application.ApplicationExit += delegate
+            {
+                NFI.Visible = false;
+                NFI.Dispose();
+            };
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FrmMain());
+            Application.Run();
+        }
+
+        private static void LoadPlugins()
+        {
+            if (!Directory.Exists(PluginDir))
+            {
+                NFI.ShowBalloonTip(5000, "No plugins", "Plugin directory does not exist", ToolTipIcon.Error);
+            }
+            else
+            {
+                foreach(var D in Directory.EnumerateDirectories(PluginDir))
+                {
+                    var PluginName = Path.GetFileName(D);
+
+                }
+            }
+        }
+
+        private static void ShowForm()
+        {
+            if (MainForm == null)
+            {
+                MainForm = new FrmMain();
+                MainForm.Disposed += delegate
+                {
+                    MainForm = null;
+                };
+                MainForm.Show();
+            }
+            else
+            {
+                MainForm.WindowState = FormWindowState.Normal;
+                MainForm.BringToFront();
+                MainForm.Show();
+                MainForm.Focus();
+            }
+        }
+
+        private static void ApplicationReady(object sender, EventArgs e)
+        {
+            //Unregister event immediately
+            Application.Idle -= ApplicationReady;
+            NFI = new NotifyIcon
+            {
+                Icon = Resources.LedCheckWarning,
+                Visible = true,
+                BalloonTipIcon = ToolTipIcon.Info,
+                BalloonTipTitle = "Monitoring Status",
+                ContextMenuStrip = new ContextMenuStrip()
+            };
+            NFI.ContextMenuStrip.Items.Add("&Show").Click += delegate
+            {
+                ShowForm();
+            };
+            NFI.ContextMenuStrip.Items.Add("&Exit").Click += delegate
+            {
+                Application.Exit();
+            };
+            NFI.DoubleClick += delegate
+            {
+                ShowForm();
+            };
+
+            LoadPlugins();
         }
     }
 }
