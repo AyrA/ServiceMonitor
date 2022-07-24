@@ -1,6 +1,9 @@
 ﻿using ServiceMonitor.Properties;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 
 namespace ServiceMonitor
@@ -11,12 +14,21 @@ namespace ServiceMonitor
         private static FrmMain MainForm = null;
         private static NotifyIcon NFI;
 
+        public static void ShowInfo(string Message, string Title, ToolTipIcon Icon)
+        {
+            NFI.ShowBalloonTip(10000, Title, Message, Icon);
+        }
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main()
         {
+            //Load existing plugins
+            PluginManager.RestorePlugins(LoadPlugins());
+            PluginManager.StartTestLoop();
+
             //Manual idle event handler so we can start the application with the form in hidden mode
             //We only use this once to set up all other events
             Application.Idle += ApplicationReady;
@@ -31,20 +43,25 @@ namespace ServiceMonitor
             Application.Run();
         }
 
-        private static void LoadPlugins()
+        private static PluginInfo[] LoadPlugins()
         {
-            if (!Directory.Exists(PluginDir))
+            var Plugins = new List<PluginInfo>();
+
+            Plugins.AddRange(PluginManager.FindPlugins(Application.ExecutablePath));
+
+            if (Directory.Exists(PluginDir))
             {
-                NFI.ShowBalloonTip(5000, "No plugins", "Plugin directory does not exist", ToolTipIcon.Error);
-            }
-            else
-            {
-                foreach(var D in Directory.EnumerateDirectories(PluginDir))
+                foreach (var D in Directory.EnumerateDirectories(PluginDir))
                 {
                     var PluginName = Path.GetFileName(D);
-
+                    var FullName = Path.Combine(D, PluginName + ".dll");
+                    if (File.Exists(FullName))
+                    {
+                        Plugins.AddRange(PluginManager.FindPlugins(FullName));
+                    }
                 }
             }
+            return Plugins.ToArray();
         }
 
         private static void ShowForm()
@@ -56,6 +73,7 @@ namespace ServiceMonitor
                 {
                     MainForm = null;
                 };
+                MainForm.SetMenuPlugins(LoadPlugins());
                 MainForm.Show();
             }
             else
@@ -85,14 +103,16 @@ namespace ServiceMonitor
             };
             NFI.ContextMenuStrip.Items.Add("&Exit").Click += delegate
             {
-                Application.Exit();
+                using (NFI)
+                {
+                    NFI.Visible = false;
+                    Application.Exit();
+                }
             };
             NFI.DoubleClick += delegate
             {
                 ShowForm();
             };
-
-            LoadPlugins();
         }
     }
 }
