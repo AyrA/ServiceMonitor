@@ -232,7 +232,9 @@ namespace ServiceMonitor.BuiltinPlugins
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FrmHttpPluginConfig";
+            this.ShowIcon = false;
             this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "HTTP Configuration";
             ((System.ComponentModel.ISupportInitialize)(this.TbStatusCode)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TbCheckInterval)).EndInit();
