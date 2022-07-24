@@ -14,7 +14,7 @@ namespace ServiceMonitor.BuiltinPlugins
     {
         private const int MAGIC = 0x503CAC08;
 
-        public static string BaseName => "HTTP Status check";
+        public static string BaseName => "HTTP Status";
 
         public string Name
         {
