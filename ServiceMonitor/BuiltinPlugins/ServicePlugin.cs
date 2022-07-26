@@ -34,6 +34,8 @@ namespace ServiceMonitor.BuiltinPlugins
 
         public string ComputerName { get; set; }
 
+        public string LastStatus { get; private set; }
+
         public ServiceControllerStatus ExpectedStatus { get; set; } = ServiceControllerStatus.Running;
 
         public DateTime NextCheck { get; private set; } = DateTime.UtcNow;
@@ -42,12 +44,13 @@ namespace ServiceMonitor.BuiltinPlugins
 
         public void Start()
         {
+            LastStatus = null;
             NextCheck = DateTime.UtcNow;
         }
 
         public void Stop()
         {
-            //NOOP
+            LastStatus = null;
         }
 
         public bool Config()
@@ -77,6 +80,8 @@ namespace ServiceMonitor.BuiltinPlugins
 
         public void Test()
         {
+            var DisplayName = "local computer";
+
             CheckState();
             NextCheck = NextCheck.AddSeconds(Interval);
             ServiceController Service;
@@ -88,19 +93,22 @@ namespace ServiceMonitor.BuiltinPlugins
                 }
                 else
                 {
+                    DisplayName = ComputerName;
                     Service = new ServiceController(ServiceName, ComputerName);
                 }
             }
             catch
             {
+                LastStatus = $"Unable to access service '{ServiceName}' on {DisplayName}";
                 throw;
             }
             using (Service)
             {
                 if (Service.Status != ExpectedStatus)
                 {
-                    throw new Exception($"Service {ServiceName} is not in expected state. Expected: {ExpectedStatus}; Current: {Service.Status}");
+                    throw new Exception(LastStatus = $"Service {ServiceName} is not in expected state. Expected: {ExpectedStatus}; Current: {Service.Status}");
                 }
+                LastStatus = $"Service is {Service.Status}";
             }
         }
 

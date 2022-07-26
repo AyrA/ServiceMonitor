@@ -52,6 +52,7 @@ namespace ServiceMonitor
                 UpdateListItem(Entry, PI);
                 PI.TestComplete += PluginTestComplete;
             }
+            LvPlugins.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
             LvPlugins.ResumeLayout();
         }
 
@@ -89,7 +90,7 @@ namespace ServiceMonitor
             item.Text = info.Plugin.Name;
             if (info.Enabled)
             {
-                item.SubItems[1].Text = info.LastError == null ? "OK" : info.LastError.Message;
+                item.SubItems[1].Text = info.LastError == null ? info.Plugin.LastStatus : info.LastError.Message;
                 item.SubItems[2].Text = info.Plugin.NextCheck.ToLocalTime().ToString("G");
             }
             else
@@ -186,6 +187,7 @@ namespace ServiceMonitor
             if (ListItem != null)
             {
                 UpdateListItem(ListItem, sender);
+                LvPlugins.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
             }
             else
             {

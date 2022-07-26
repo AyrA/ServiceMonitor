@@ -20,6 +20,7 @@ namespace ServiceMonitor
 
         private readonly PropertyInfo BaseNameProp;
         private readonly PropertyInfo NameProp;
+        private readonly PropertyInfo LastStatusProp;
         private readonly PropertyInfo NextCheckProp;
 
         public bool Disposed { get; private set; }
@@ -45,6 +46,22 @@ namespace ServiceMonitor
                     throw new ObjectDisposedException(nameof(Plugin));
                 }
                 return (string)NameProp.GetValue(NameProp.GetMethod.IsStatic ? null : BasePlugin);
+            }
+        }
+
+        public string LastStatus
+        {
+            get
+            {
+                if (Disposed)
+                {
+                    throw new ObjectDisposedException(nameof(Plugin));
+                }
+                if (LastStatusProp != null)
+                {
+                    return (string)LastStatusProp.GetValue(BasePlugin);
+                }
+                return LastError == null ? "OK" : LastError.Message;
             }
         }
 
@@ -123,6 +140,7 @@ namespace ServiceMonitor
             {
                 throw new PluginException($"Failed to read Name property of {PluginType.Name}. See inner exception for details", ex);
             }
+
             try
             {
                 ValidateProperty("Name", typeof(string));
@@ -157,6 +175,46 @@ namespace ServiceMonitor
             catch (Exception ex)
             {
                 throw new PluginException($"Failed to read NextCheck property of {PluginType.Name}. See inner exception for details", ex);
+            }
+
+            try
+            {
+                ValidateProperty("Name", typeof(string));
+                var Prop = PluginType.GetProperty("Name");
+                var Getter = Prop.GetMethod;
+                //Try to retrieve value now to catch potential exception
+                Prop.GetValue(Getter.IsStatic ? null : BasePlugin);
+                //make property accessible through our own Name property
+                NameProp = Prop;
+            }
+            catch (PluginException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new PluginException($"Failed to read Name property of {PluginType.Name}. See inner exception for details", ex);
+            }
+            try
+            {
+                //This property is optional
+                var Prop = PluginType.GetProperty("LastStatus");
+                if (Prop != null)
+                {
+                    ValidateProperty("LastStatus", typeof(string));
+                    //Try to retrieve value now to catch potential exception
+                    Prop.GetValue(BasePlugin);
+                    //make property accessible through our own property
+                    LastStatusProp = Prop;
+                }
+            }
+            catch (PluginException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new PluginException($"Failed to read LastStatus property of {PluginType.Name}. See inner exception for details", ex);
             }
 
             #endregion
