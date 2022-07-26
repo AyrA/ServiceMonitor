@@ -53,12 +53,19 @@
     <Compile Include="BuiltinPlugins\FrmHttpPluginConfig.Designer.cs">
       <DependentUpon>FrmHttpPluginConfig.cs</DependentUpon>
     </Compile>
+    <Compile Include="BuiltinPlugins\FrmIcmpPluginConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BuiltinPlugins\FrmIcmpPluginConfig.Designer.cs">
+      <DependentUpon>FrmIcmpPluginConfig.cs</DependentUpon>
+    </Compile>
     <Compile Include="BuiltinPlugins\FrmServicePluginConfig.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="BuiltinPlugins\FrmServicePluginConfig.Designer.cs">
       <DependentUpon>FrmServicePluginConfig.cs</DependentUpon>
     </Compile>
+    <Compile Include="BuiltinPlugins\IcmpPlugin.cs" />
     <Compile Include="BuiltinPlugins\ServicePlugin.cs" />
     <Compile Include="FrmMain.cs">
       <SubType>Form</SubType>
@@ -77,6 +84,9 @@
     <Compile Include="SafeMemoryHandle.cs" />
     <EmbeddedResource Include="BuiltinPlugins\FrmHttpPluginConfig.resx">
       <DependentUpon>FrmHttpPluginConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BuiltinPlugins\FrmIcmpPluginConfig.resx">
+      <DependentUpon>FrmIcmpPluginConfig.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="BuiltinPlugins\FrmServicePluginConfig.resx">
       <DependentUpon>FrmServicePluginConfig.cs</DependentUpon>
