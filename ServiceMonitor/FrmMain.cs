@@ -182,6 +182,7 @@ namespace ServiceMonitor
                 {
                     Program.ShowInfo($"Service status alert:\r\n{sender.LastError.Message}", sender.Plugin.Name, ToolTipIcon.Error);
                 }
+                Program.SetTrayIcon(PluginManager.Plugins);
             }
             var ListItem = LvPlugins.Items.OfType<ListViewItem>().FirstOrDefault(m => ((PluginStatus)m.Tag) == sender);
             if (ListItem != null)

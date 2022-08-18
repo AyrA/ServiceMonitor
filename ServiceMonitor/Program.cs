@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace ServiceMonitor
@@ -12,9 +13,26 @@ namespace ServiceMonitor
         private static FrmMain MainForm = null;
         private static NotifyIcon NFI;
 
+        public static void SetTrayIcon(IEnumerable<PluginStatus> Status)
+        {
+            var Plugins = Status.ToArray();
+            if (Plugins.Length == 0 || Plugins.All(m => !m.Enabled))
+            {
+                NFI.Icon = Resources.LedCheckOff;
+            }
+            else
+            {
+                var ok = Plugins.All(m => !m.Enabled || m.LastError == null);
+                NFI.Icon = ok ? Resources.LedCheckOk : Resources.LedCheckError;
+            }
+        }
+
         public static void ShowInfo(string Message, string Title, ToolTipIcon Icon)
         {
-            NFI.ShowBalloonTip(10000, Title, Message, Icon);
+            if (NFI != null)
+            {
+                NFI.ShowBalloonTip(10000, Title, Message, Icon);
+            }
         }
 
         /// <summary>
@@ -93,6 +111,7 @@ namespace ServiceMonitor
                 Visible = true,
                 BalloonTipIcon = ToolTipIcon.Info,
                 BalloonTipTitle = "Monitoring Status",
+                Text = "Service Monitor",
                 ContextMenuStrip = new ContextMenuStrip()
             };
             NFI.ContextMenuStrip.Items.Add("&Show").Click += delegate
@@ -111,6 +130,7 @@ namespace ServiceMonitor
             {
                 ShowForm();
             };
+            SetTrayIcon(PluginManager.Plugins);
         }
     }
 }
