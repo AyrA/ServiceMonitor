@@ -39,23 +39,23 @@ namespace ServiceMonitor.BuiltinPlugins
             this.TbCertificateExpires = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
             this.GbConnection = new System.Windows.Forms.GroupBox();
+            this.TbConnectTimeout = new System.Windows.Forms.NumericUpDown();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.GbSecurity = new System.Windows.Forms.GroupBox();
             this.CbChainIgnore = new System.Windows.Forms.CheckBox();
             this.GbValidation = new System.Windows.Forms.GroupBox();
             this.BtnOk = new System.Windows.Forms.Button();
             this.BtnCancel = new System.Windows.Forms.Button();
-            this.TbConnectTimeout = new System.Windows.Forms.NumericUpDown();
             this.TbCheckInterval = new System.Windows.Forms.NumericUpDown();
-            this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.TbConnectionPort)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TbCertificateExpires)).BeginInit();
             this.GbConnection.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.TbConnectTimeout)).BeginInit();
             this.GbSecurity.SuspendLayout();
             this.GbValidation.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.TbConnectTimeout)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TbCheckInterval)).BeginInit();
             this.SuspendLayout();
             // 
@@ -115,6 +115,7 @@ namespace ServiceMonitor.BuiltinPlugins
             // 
             this.TbCertificateHost.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.TbCertificateHost.Enabled = false;
             this.TbCertificateHost.Location = new System.Drawing.Point(174, 19);
             this.TbCertificateHost.Name = "TbCertificateHost";
             this.TbCertificateHost.Size = new System.Drawing.Size(186, 20);
@@ -167,6 +168,46 @@ namespace ServiceMonitor.BuiltinPlugins
             this.GbConnection.TabIndex = 0;
             this.GbConnection.TabStop = false;
             this.GbConnection.Text = "Connection";
+            // 
+            // TbConnectTimeout
+            // 
+            this.TbConnectTimeout.Location = new System.Drawing.Point(130, 54);
+            this.TbConnectTimeout.Maximum = new decimal(new int[] {
+            20000,
+            0,
+            0,
+            0});
+            this.TbConnectTimeout.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.TbConnectTimeout.Name = "TbConnectTimeout";
+            this.TbConnectTimeout.Size = new System.Drawing.Size(120, 20);
+            this.TbConnectTimeout.TabIndex = 5;
+            this.TbConnectTimeout.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(258, 56);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(104, 13);
+            this.label5.TabIndex = 6;
+            this.label5.Text = "Value in milliseconds";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(14, 56);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(98, 13);
+            this.label7.TabIndex = 4;
+            this.label7.Text = "Connection timeout";
             // 
             // GbSecurity
             // 
@@ -228,28 +269,6 @@ namespace ServiceMonitor.BuiltinPlugins
             this.BtnCancel.Text = "&Cancel";
             this.BtnCancel.UseVisualStyleBackColor = true;
             // 
-            // TbConnectTimeout
-            // 
-            this.TbConnectTimeout.Location = new System.Drawing.Point(130, 54);
-            this.TbConnectTimeout.Maximum = new decimal(new int[] {
-            20000,
-            0,
-            0,
-            0});
-            this.TbConnectTimeout.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.TbConnectTimeout.Name = "TbConnectTimeout";
-            this.TbConnectTimeout.Size = new System.Drawing.Size(120, 20);
-            this.TbConnectTimeout.TabIndex = 5;
-            this.TbConnectTimeout.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
             // TbCheckInterval
             // 
             this.TbCheckInterval.Location = new System.Drawing.Point(107, 263);
@@ -272,15 +291,6 @@ namespace ServiceMonitor.BuiltinPlugins
             0,
             0});
             // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(258, 56);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(104, 13);
-            this.label5.TabIndex = 6;
-            this.label5.Text = "Value in milliseconds";
-            // 
             // label6
             // 
             this.label6.AutoSize = true;
@@ -289,15 +299,6 @@ namespace ServiceMonitor.BuiltinPlugins
             this.label6.Size = new System.Drawing.Size(70, 13);
             this.label6.TabIndex = 5;
             this.label6.Text = "Value in days";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(14, 56);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(98, 13);
-            this.label7.TabIndex = 4;
-            this.label7.Text = "Connection timeout";
             // 
             // label8
             // 
@@ -335,11 +336,11 @@ namespace ServiceMonitor.BuiltinPlugins
             ((System.ComponentModel.ISupportInitialize)(this.TbCertificateExpires)).EndInit();
             this.GbConnection.ResumeLayout(false);
             this.GbConnection.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.TbConnectTimeout)).EndInit();
             this.GbSecurity.ResumeLayout(false);
             this.GbSecurity.PerformLayout();
             this.GbValidation.ResumeLayout(false);
             this.GbValidation.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.TbConnectTimeout)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TbCheckInterval)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
