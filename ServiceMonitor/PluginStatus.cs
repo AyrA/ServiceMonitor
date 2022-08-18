@@ -40,8 +40,10 @@ namespace ServiceMonitor
                 Plugin.Test();
                 T = null;
                 TestComplete(this, Previous);
-            });
-            T.IsBackground = true;
+            })
+            {
+                IsBackground = true
+            };
             T.Start();
             return true;
         }

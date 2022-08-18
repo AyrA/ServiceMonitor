@@ -46,8 +46,10 @@ namespace ServiceMonitor
                     //Wait until the next second
                     Thread.Sleep(1000 - DateTime.Now.Millisecond);
                 }
-            });
-            T.IsBackground = true;
+            })
+            {
+                IsBackground = true
+            };
             T.Start();
         }
 
