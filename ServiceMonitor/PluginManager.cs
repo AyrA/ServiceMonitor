@@ -74,7 +74,7 @@ namespace ServiceMonitor
 
             foreach (var T in PluginTypes)
             {
-                if (T.Name.EndsWith("Plugin") && T.Name.Length > "Plugin".Length)
+                if (T.IsClass && T.Name.EndsWith("Plugin") && T.Name.Length > "Plugin".Length)
                 {
                     try
                     {
