@@ -68,7 +68,7 @@ namespace ServiceMonitor
             var Ret = new List<PluginInfo>();
             //Loading plugins in a separate domain allows us to unload them again.
             var AD = AppDomain.CreateDomain("PluginDetection");
-            var A = AD.Load(System.IO.File.ReadAllBytes(DllFile));
+            var A = AD.Load(File.ReadAllBytes(DllFile));
             var PluginTypes = A.GetExportedTypes();
             AppDomain.Unload(AD);
 
