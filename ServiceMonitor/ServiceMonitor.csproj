@@ -65,8 +65,15 @@
     <Compile Include="BuiltinPlugins\FrmServicePluginConfig.Designer.cs">
       <DependentUpon>FrmServicePluginConfig.cs</DependentUpon>
     </Compile>
+    <Compile Include="BuiltinPlugins\FrmTlsPluginConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BuiltinPlugins\FrmTlsPluginConfig.Designer.cs">
+      <DependentUpon>FrmTlsPluginConfig.cs</DependentUpon>
+    </Compile>
     <Compile Include="BuiltinPlugins\IcmpPlugin.cs" />
     <Compile Include="BuiltinPlugins\ServicePlugin.cs" />
+    <Compile Include="BuiltinPlugins\TlsPlugin.cs" />
     <Compile Include="FrmMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -90,6 +97,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="BuiltinPlugins\FrmServicePluginConfig.resx">
       <DependentUpon>FrmServicePluginConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BuiltinPlugins\FrmTlsPluginConfig.resx">
+      <DependentUpon>FrmTlsPluginConfig.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>
