@@ -126,13 +126,13 @@ namespace ServiceMonitor.BuiltinPlugins
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(10, 24);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(114, 13);
+            this.label3.Size = new System.Drawing.Size(117, 13);
             this.label3.TabIndex = 0;
-            this.label3.Text = "Alert if expiration within";
+            this.label3.Text = "Alert if expiration within:";
             // 
             // TbCertificateExpires
             // 
-            this.TbCertificateExpires.Location = new System.Drawing.Point(130, 22);
+            this.TbCertificateExpires.Location = new System.Drawing.Point(133, 22);
             this.TbCertificateExpires.Maximum = new decimal(new int[] {
             9999,
             0,
@@ -145,7 +145,7 @@ namespace ServiceMonitor.BuiltinPlugins
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(205, 24);
+            this.label4.Location = new System.Drawing.Point(208, 24);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(29, 13);
             this.label4.TabIndex = 2;
@@ -183,7 +183,7 @@ namespace ServiceMonitor.BuiltinPlugins
             0,
             0});
             this.TbConnectTimeout.Name = "TbConnectTimeout";
-            this.TbConnectTimeout.Size = new System.Drawing.Size(120, 20);
+            this.TbConnectTimeout.Size = new System.Drawing.Size(106, 20);
             this.TbConnectTimeout.TabIndex = 5;
             this.TbConnectTimeout.Value = new decimal(new int[] {
             1,
@@ -194,20 +194,20 @@ namespace ServiceMonitor.BuiltinPlugins
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(258, 56);
+            this.label5.Location = new System.Drawing.Point(256, 56);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(104, 13);
+            this.label5.Size = new System.Drawing.Size(63, 13);
             this.label5.TabIndex = 6;
-            this.label5.Text = "Value in milliseconds";
+            this.label5.Text = "milliseconds";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(14, 56);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(98, 13);
+            this.label7.Size = new System.Drawing.Size(101, 13);
             this.label7.TabIndex = 4;
-            this.label7.Text = "Connection timeout";
+            this.label7.Text = "Connection timeout:";
             // 
             // GbSecurity
             // 
@@ -271,7 +271,7 @@ namespace ServiceMonitor.BuiltinPlugins
             // 
             // TbCheckInterval
             // 
-            this.TbCheckInterval.Location = new System.Drawing.Point(107, 263);
+            this.TbCheckInterval.Location = new System.Drawing.Point(145, 262);
             this.TbCheckInterval.Maximum = new decimal(new int[] {
             1440,
             0,
@@ -283,7 +283,7 @@ namespace ServiceMonitor.BuiltinPlugins
             0,
             0});
             this.TbCheckInterval.Name = "TbCheckInterval";
-            this.TbCheckInterval.Size = new System.Drawing.Size(73, 20);
+            this.TbCheckInterval.Size = new System.Drawing.Size(69, 20);
             this.TbCheckInterval.TabIndex = 4;
             this.TbCheckInterval.Value = new decimal(new int[] {
             1,
@@ -294,20 +294,20 @@ namespace ServiceMonitor.BuiltinPlugins
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(186, 265);
+            this.label6.Location = new System.Drawing.Point(220, 264);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(70, 13);
+            this.label6.Size = new System.Drawing.Size(29, 13);
             this.label6.TabIndex = 5;
-            this.label6.Text = "Value in days";
+            this.label6.Text = "days";
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(26, 265);
+            this.label8.Location = new System.Drawing.Point(58, 264);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(75, 13);
+            this.label8.Size = new System.Drawing.Size(78, 13);
             this.label8.TabIndex = 3;
-            this.label8.Text = "Check interval";
+            this.label8.Text = "Check interval:";
             // 
             // FrmTlsPluginConfig
             // 
