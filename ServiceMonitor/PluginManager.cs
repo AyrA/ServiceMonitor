@@ -65,33 +65,48 @@ namespace ServiceMonitor
 
         public static PluginInfo[] FindPlugins(string DllFile, bool SkipInvalid = false)
         {
+            Type[] PluginTypes = null;
             var Ret = new List<PluginInfo>();
             //Loading plugins in a separate domain allows us to unload them again.
             var AD = AppDomain.CreateDomain("PluginDetection");
-            var A = AD.Load(File.ReadAllBytes(DllFile));
-            var PluginTypes = A.GetExportedTypes();
+            try
+            {
+                var A = AD.Load(File.ReadAllBytes(DllFile));
+                PluginTypes = A.GetExportedTypes();
+            }
+            catch
+            {
+                //Failed to load DLL
+                if (!SkipInvalid)
+                {
+                    throw;
+                }
+            }
             AppDomain.Unload(AD);
 
-            foreach (var T in PluginTypes)
+            if (PluginTypes != null)
             {
-                if (T.IsClass && T.Name.EndsWith("Plugin") && T.Name.Length > "Plugin".Length)
+                foreach (var T in PluginTypes)
                 {
-                    try
+                    if (T.IsClass && T.Name.EndsWith("Plugin") && T.Name.Length > "Plugin".Length)
                     {
-                        //Try to instantiate the plugin to validate it
-                        var P = new Plugin(T);
-                        Ret.Add(new PluginInfo()
+                        try
                         {
-                            BaseName = P.BaseName,
-                            PluginType = T,
-                            AssemblyFile = DllFile
-                        });
-                    }
-                    catch (PluginException)
-                    {
-                        if (!SkipInvalid)
+                            //Try to instantiate the plugin to validate it
+                            var P = new Plugin(T);
+                            Ret.Add(new PluginInfo()
+                            {
+                                BaseName = P.BaseName,
+                                PluginType = T,
+                                AssemblyFile = DllFile
+                            });
+                        }
+                        catch (PluginException)
                         {
-                            throw;
+                            if (!SkipInvalid)
+                            {
+                                throw;
+                            }
                         }
                     }
                 }
