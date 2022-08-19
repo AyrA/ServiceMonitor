@@ -179,24 +179,6 @@ namespace ServiceMonitor
 
             try
             {
-                ValidateProperty("Name", typeof(string));
-                var Prop = PluginType.GetProperty("Name");
-                var Getter = Prop.GetMethod;
-                //Try to retrieve value now to catch potential exception
-                Prop.GetValue(Getter.IsStatic ? null : BasePlugin);
-                //make property accessible through our own Name property
-                NameProp = Prop;
-            }
-            catch (PluginException)
-            {
-                throw;
-            }
-            catch (Exception ex)
-            {
-                throw new PluginException($"Failed to read Name property of {PluginType.Name}. See inner exception for details", ex);
-            }
-            try
-            {
                 //This property is optional
                 var Prop = PluginType.GetProperty("LastStatus");
                 if (Prop != null)

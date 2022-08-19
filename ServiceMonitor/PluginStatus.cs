@@ -8,11 +8,27 @@ namespace ServiceMonitor
         public event Action<PluginStatus, Exception> TestComplete = delegate { };
 
         public bool IsTesting => T != null;
-        public bool Enabled { get; set; }
+        public bool Enabled
+        {
+            get { return enabled; }
+            set
+            {
+                enabled = value;
+                if (value)
+                {
+                    Plugin.Stop();
+                }
+                else
+                {
+                    Plugin.Start();
+                }
+            }
+        }
         public Exception LastError => Plugin.LastError;
         public Plugin Plugin { get; }
 
         private Thread T = null;
+        private bool enabled;
 
         public PluginStatus(Plugin P)
         {
