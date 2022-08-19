@@ -9,7 +9,11 @@ namespace ServiceMonitor
 {
     static class Program
     {
-        private static readonly string PluginDir = Path.Combine(Application.StartupPath, "Plugins");
+#if DEBUG
+        public static readonly string PluginDir = @"C:\Temp\ServiceMonitor\Plugins";
+#else
+        public static readonly string PluginDir = Path.Combine(Application.StartupPath, "Plugins");
+#endif
         private static FrmMain MainForm = null;
         private static NotifyIcon NFI;
 
