@@ -94,7 +94,7 @@ namespace ServiceMonitor.BuiltinPlugins
         public void Test()
         {
             CheckState();
-            NextCheck = NextCheck.AddSeconds(Interval);
+            var InitialCheck = DateTime.UtcNow < NextCheck ? DateTime.UtcNow : NextCheck;
             using (var C = new TcpClient())
             {
                 Exception error = null;
@@ -112,10 +112,12 @@ namespace ServiceMonitor.BuiltinPlugins
                 T.Start();
                 if (!T.Join(Timeout))
                 {
-                    throw new TimeoutException("Connecting to the remote host timed out");
+                    error = new TimeoutException("Connecting to the remote host timed out");
                 }
                 if (error != null)
                 {
+                    //Try every 30 seconds on TCP errors
+                    NextCheck = InitialCheck.AddSeconds(30);
                     throw error;
                 }
 
@@ -123,10 +125,21 @@ namespace ServiceMonitor.BuiltinPlugins
                 {
                     using (var SSL = new SslStream(NS, false, CertificateValidationCallback))
                     {
-                        SSL.AuthenticateAsClient(string.IsNullOrWhiteSpace(CertificateHostName) ? ConnectHostName : CertificateHostName, null, SSL_PROTOCOLS, true);
+                        try
+                        {
+                            SSL.AuthenticateAsClient(string.IsNullOrWhiteSpace(CertificateHostName) ? ConnectHostName : CertificateHostName, null, SSL_PROTOCOLS, true);
+                        }
+                        catch
+                        {
+                            //Try every minute on a validation error
+                            NextCheck = InitialCheck.AddMinutes(1);
+                            throw;
+                        }
                     }
                 }
             }
+            //If successful, use the user configured interval
+            NextCheck = InitialCheck.AddSeconds(Interval);
         }
 
         public void Load(byte[] data)
